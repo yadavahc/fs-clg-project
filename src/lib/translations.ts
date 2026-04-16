@@ -71,7 +71,39 @@ type TranslationKey =
   | "featureVoice"
   | "featureMultilingual"
   | "featureRisk"
-  | "featureRAG";
+  | "featureRAG"
+  | "recording"
+  | "voiceInput"
+  | "readAloud"
+  | "stopReading"
+  | "tapToSpeak"
+  | "autoSpeak"
+  | "newAnalysis"
+  | "searchGuides"
+  | "quickActions"
+  | "totalDocuments"
+  | "analyzedDocs"
+  | "addNew"
+  | "suggestedQuestions"
+  | "pressEnterHint"
+  | "noRisksFound"
+  | "safeDocument"
+  | "consultLawyer"
+  | "listenAnalysis"
+  | "guideSubtitle"
+  | "analyzeSubtitle"
+  | "loadingDocument"
+  | "riskExplanation"
+  | "saferAlternative"
+  | "risksFound"
+  | "decisionSubtitle"
+  | "tabOverview"
+  | "tabRisks"
+  | "tabDecision"
+  | "tabAdvice"
+  | "voiceNotSupported"
+  | "highRiskAlert"
+  | "highRiskAlertDesc";
 
 type Translations = Record<Language, Record<TranslationKey, string>>;
 
@@ -142,6 +174,38 @@ export const translations: Translations = {
     featureMultilingual: "Multilingual Support",
     featureRisk: "Risk Analysis",
     featureRAG: "Smart Legal Memory",
+    recording: "Recording...",
+    voiceInput: "Voice Input",
+    readAloud: "Read aloud",
+    stopReading: "Stop reading",
+    tapToSpeak: "Tap to speak",
+    autoSpeak: "Auto-speak replies",
+    newAnalysis: "New Analysis",
+    searchGuides: "Search guides...",
+    quickActions: "Quick Actions",
+    totalDocuments: "Total Documents",
+    analyzedDocs: "Analyzed",
+    addNew: "Add New",
+    suggestedQuestions: "Suggested questions:",
+    pressEnterHint: "Enter to send • Shift+Enter for new line",
+    noRisksFound: "No major risks found",
+    safeDocument: "This document appears to be safe",
+    consultLawyer: "Always consult a qualified lawyer before signing any legal document.",
+    listenAnalysis: "Listen to analysis",
+    guideSubtitle: "Step-by-step guides for common legal processes in India",
+    analyzeSubtitle: "Upload any legal document for instant AI analysis",
+    loadingDocument: "Loading document...",
+    riskExplanation: "Risk Explanation",
+    saferAlternative: "Safer Alternative",
+    risksFound: "found",
+    decisionSubtitle: "Understand the consequences before making your decision",
+    tabOverview: "Overview",
+    tabRisks: "Risks",
+    tabDecision: "Decision",
+    tabAdvice: "Advice",
+    voiceNotSupported: "Voice input not supported in this browser",
+    highRiskAlert: "High-Risk Documents Need Attention",
+    highRiskAlertDesc: "You have high-risk document(s). Review before signing.",
   },
   hi: {
     appName: "लीगल साथी",
@@ -209,6 +273,38 @@ export const translations: Translations = {
     featureMultilingual: "बहुभाषी समर्थन",
     featureRisk: "जोखिम विश्लेषण",
     featureRAG: "स्मार्ट क़ानूनी मेमोरी",
+    recording: "रिकॉर्ड हो रहा है...",
+    voiceInput: "आवाज़ इनपुट",
+    readAloud: "ज़ोर से पढ़ें",
+    stopReading: "पढ़ना बंद करें",
+    tapToSpeak: "बोलने के लिए टैप करें",
+    autoSpeak: "उत्तर स्वतः बोलें",
+    newAnalysis: "नया विश्लेषण",
+    searchGuides: "गाइड खोजें...",
+    quickActions: "त्वरित क्रियाएं",
+    totalDocuments: "कुल दस्तावेज़",
+    analyzedDocs: "विश्लेषित",
+    addNew: "नया जोड़ें",
+    suggestedQuestions: "सुझाए गए प्रश्न:",
+    pressEnterHint: "Enter से भेजें • Shift+Enter नई लाइन",
+    noRisksFound: "कोई बड़ा जोखिम नहीं मिला",
+    safeDocument: "यह दस्तावेज़ सुरक्षित लगता है",
+    consultLawyer: "किसी भी क़ानूनी दस्तावेज़ पर हस्ताक्षर करने से पहले वकील से सलाह लें।",
+    listenAnalysis: "विश्लेषण सुनें",
+    guideSubtitle: "भारत में सामान्य क़ानूनी प्रक्रियाओं के लिए चरण-दर-चरण गाइड",
+    analyzeSubtitle: "तत्काल AI विश्लेषण के लिए कोई भी क़ानूनी दस्तावेज़ अपलोड करें",
+    loadingDocument: "दस्तावेज़ लोड हो रहा है...",
+    riskExplanation: "जोखिम विवरण",
+    saferAlternative: "सुरक्षित विकल्प",
+    risksFound: "मिले",
+    decisionSubtitle: "निर्णय लेने से पहले परिणाम समझें",
+    tabOverview: "अवलोकन",
+    tabRisks: "जोखिम",
+    tabDecision: "निर्णय",
+    tabAdvice: "सलाह",
+    voiceNotSupported: "इस ब्राउज़र में आवाज़ इनपुट समर्थित नहीं है",
+    highRiskAlert: "उच्च जोखिम वाले दस्तावेज़ों पर ध्यान दें",
+    highRiskAlertDesc: "आपके पास उच्च जोखिम वाले दस्तावेज़ हैं। हस्ताक्षर करने से पहले समीक्षा करें।",
   },
   kn: {
     appName: "ಲೀಗಲ್ ಸಾಥಿ",
@@ -276,6 +372,38 @@ export const translations: Translations = {
     featureMultilingual: "ಬಹುಭಾಷಾ ಬೆಂಬಲ",
     featureRisk: "ಅಪಾಯ ವಿಶ್ಲೇಷಣೆ",
     featureRAG: "ಸ್ಮಾರ್ಟ್ ಕಾನೂನು ಮೆಮೊರಿ",
+    recording: "ರೆಕಾರ್ಡ್ ಆಗುತ್ತಿದೆ...",
+    voiceInput: "ಧ್ವನಿ ಇನ್‌ಪುಟ್",
+    readAloud: "ಗಟ್ಟಿಯಾಗಿ ಓದಿ",
+    stopReading: "ಓದುವುದನ್ನು ನಿಲ್ಲಿಸಿ",
+    tapToSpeak: "ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
+    autoSpeak: "ಉತ್ತರ ಸ್ವಯಂ ಮಾತನಾಡಿ",
+    newAnalysis: "ಹೊಸ ವಿಶ್ಲೇಷಣೆ",
+    searchGuides: "ಮಾರ್ಗದರ್ಶಿ ಹುಡುಕಿ...",
+    quickActions: "ತ್ವರಿತ ಕ್ರಿಯೆಗಳು",
+    totalDocuments: "ಒಟ್ಟು ದಾಖಲೆಗಳು",
+    analyzedDocs: "ವಿಶ್ಲೇಷಿಸಲಾಗಿದೆ",
+    addNew: "ಹೊಸದು ಸೇರಿಸಿ",
+    suggestedQuestions: "ಸೂಚಿಸಿದ ಪ್ರಶ್ನೆಗಳು:",
+    pressEnterHint: "ಕಳುಹಿಸಲು Enter • ಹೊಸ ಸಾಲಿಗೆ Shift+Enter",
+    noRisksFound: "ಯಾವುದೇ ಅಪಾಯ ಕಾಣಿಸಲಿಲ್ಲ",
+    safeDocument: "ಈ ದಾಖಲೆ ಸುರಕ್ಷಿತವಾಗಿ ತೋರುತ್ತಿದೆ",
+    consultLawyer: "ಯಾವುದೇ ಕಾನೂನು ದಾಖಲೆಗೆ ಸಹಿ ಮಾಡುವ ಮೊದಲು ವಕೀಲರನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+    listenAnalysis: "ವಿಶ್ಲೇಷಣೆ ಕೇಳಿ",
+    guideSubtitle: "ಭಾರತದಲ್ಲಿ ಸಾಮಾನ್ಯ ಕಾನೂನು ಪ್ರಕ್ರಿಯೆಗಳಿಗೆ ಹಂತ-ಹಂತ ಮಾರ್ಗದರ್ಶಿ",
+    analyzeSubtitle: "ತ್ವರಿತ AI ವಿಶ್ಲೇಷಣೆಗಾಗಿ ಯಾವುದೇ ಕಾನೂನು ದಾಖಲೆ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    loadingDocument: "ದಾಖಲೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    riskExplanation: "ಅಪಾಯದ ವಿವರಣೆ",
+    saferAlternative: "ಸುರಕ್ಷಿತ ಪರ್ಯಾಯ",
+    risksFound: "ಕಾಣಿಸಿದೆ",
+    decisionSubtitle: "ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ಪರಿಣಾಮ ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳಿ",
+    tabOverview: "ಅವಲೋಕನ",
+    tabRisks: "ಅಪಾಯಗಳು",
+    tabDecision: "ನಿರ್ಧಾರ",
+    tabAdvice: "ಸಲಹೆ",
+    voiceNotSupported: "ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಇನ್‌ಪುಟ್ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ",
+    highRiskAlert: "ಅಧಿಕ ಅಪಾಯದ ದಾಖಲೆಗಳಿಗೆ ಗಮನ ನೀಡಿ",
+    highRiskAlertDesc: "ನಿಮ್ಮಲ್ಲಿ ಅಧಿಕ ಅಪಾಯದ ದಾಖಲೆಗಳಿವೆ. ಸಹಿ ಮಾಡುವ ಮೊದಲು ಪರಿಶೀಲಿಸಿ.",
   },
 };
 

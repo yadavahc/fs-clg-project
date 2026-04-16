@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 
 function AnalyzeContent() {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const searchParams = useSearchParams();
   const docId = searchParams.get("doc");
 
@@ -42,7 +42,7 @@ function AnalyzeContent() {
       const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, language: "en", userId: user?.uid, documentId: dId, fileName, fileType }),
+        body: JSON.stringify({ text, language, userId: user?.uid, documentId: dId, fileName, fileType }),
       });
       if (!res.ok) throw new Error("Analysis failed");
       const data = await res.json();
@@ -57,7 +57,6 @@ function AnalyzeContent() {
   if (loadingExisting) return (
     <div className="max-w-4xl mx-auto px-4 py-12 text-center">
       <Loader2 className="w-10 h-10 animate-spin text-saathi-500 mx-auto mb-3" />
-      <p className="text-stone-500">Loading document...</p>
     </div>
   );
 
@@ -69,12 +68,12 @@ function AnalyzeContent() {
             <h1 className="text-2xl font-bold text-saathi-800 flex items-center gap-2">
               <FileSearch className="w-6 h-6" /> {t("analyzeDocument")}
             </h1>
-            <p className="text-stone-500 text-sm mt-1">Upload any legal document for instant AI analysis</p>
+            <p className="text-stone-500 text-sm mt-1">{t("analyzeSubtitle")}</p>
           </div>
           {currentDoc && (
             <button onClick={() => { setCurrentDoc(null); setDocText(""); setDocumentId(undefined); }}
               className="flex items-center gap-2 text-sm text-saathi-600 hover:text-saathi-800 transition-colors">
-              <RefreshCw className="w-4 h-4" /> New Analysis
+              <RefreshCw className="w-4 h-4" /> {t("newAnalysis")}
             </button>
           )}
         </div>
@@ -87,7 +86,7 @@ function AnalyzeContent() {
             {!currentDoc && !analyzing ? (
               <motion.div key="upload" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                 <div className="card p-6">
-                  <h2 className="font-semibold text-stone-800 mb-4">Upload Document</h2>
+                  <h2 className="font-semibold text-stone-800 mb-4">{t("uploadDocument")}</h2>
                   <DocumentUpload onUploadComplete={handleUploadComplete} userId={user?.uid || ""} />
                 </div>
                 <div className="mt-4 card p-4">
@@ -140,7 +139,7 @@ function AnalyzeContent() {
                   </div>
                 )}
                 <Link href={`/chat?doc=${documentId}`} className="w-full flex items-center justify-center gap-2 py-3 bg-amber-600 text-white rounded-xl font-semibold text-sm hover:bg-amber-500 transition-colors shadow-sm">
-                  <MessageSquare className="w-4 h-4" /> Ask Questions About This Document
+                  <MessageSquare className="w-4 h-4" /> {t("chatWithSaathi")}
                 </Link>
               </motion.div>
             ) : null}

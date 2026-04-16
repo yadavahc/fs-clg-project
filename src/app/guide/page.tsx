@@ -71,7 +71,15 @@ function GuideContent() {
   const { t, language } = useLanguage();
   const [search, setSearch] = useState("");
 
-  const filtered = GUIDES.filter((g) => !search || g.title.toLowerCase().includes(search.toLowerCase()) || g.description.toLowerCase().includes(search.toLowerCase()));
+  const getTitle = (g: Guide) =>
+    (language === "hi" ? g.titleHi : language === "kn" ? g.titleKn : g.title) ?? g.title;
+
+  const filtered = GUIDES.filter((g) =>
+    !search ||
+    getTitle(g).toLowerCase().includes(search.toLowerCase()) ||
+    g.title.toLowerCase().includes(search.toLowerCase()) ||
+    g.description.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -79,12 +87,12 @@ function GuideContent() {
         <h1 className="text-2xl font-bold text-saathi-800 flex items-center gap-2">
           <BookOpen className="w-6 h-6" /> {t("documentGuides")}
         </h1>
-        <p className="text-stone-500 text-sm mt-1">Step-by-step guides for common legal processes in India</p>
+        <p className="text-stone-500 text-sm mt-1">{t("guideSubtitle")}</p>
       </motion.div>
 
       <div className="relative mb-6">
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
-        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search guides..." className="input-field pl-10" />
+        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("searchGuides")} className="input-field pl-10" />
       </div>
 
       <div className="space-y-4">

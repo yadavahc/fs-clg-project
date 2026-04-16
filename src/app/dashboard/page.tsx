@@ -52,16 +52,16 @@ function DashboardContent() {
   };
 
   const stats = [
-    { label: "Total Documents", value: documents.length, icon: FileText, color: "bg-saathi-100 text-saathi-700" },
-    { label: "Analyzed", value: documents.filter((d) => d.status === "completed").length, icon: ShieldCheck, color: "bg-green-100 text-green-700" },
-    { label: "High Risk", value: documents.filter((d) => d.analysis?.riskLevel === "high").length, icon: AlertTriangle, color: "bg-red-100 text-red-700" },
-    { label: "Processing", value: documents.filter((d) => d.status === "processing").length, icon: Clock, color: "bg-amber-100 text-amber-700" },
+    { label: t("totalDocuments"), value: documents.length, icon: FileText, color: "bg-saathi-100 text-saathi-700" },
+    { label: t("analyzedDocs"), value: documents.filter((d) => d.status === "completed").length, icon: ShieldCheck, color: "bg-green-100 text-green-700" },
+    { label: t("high"), value: documents.filter((d) => d.analysis?.riskLevel === "high").length, icon: AlertTriangle, color: "bg-red-100 text-red-700" },
+    { label: t("processing"), value: documents.filter((d) => d.status === "processing").length, icon: Clock, color: "bg-amber-100 text-amber-700" },
   ];
 
   const quickActions = [
-    { href: "/analyze", icon: Upload, label: "Upload & Analyze", desc: "Upload a new document", color: "bg-saathi-700 hover:bg-saathi-600 text-white" },
-    { href: "/chat", icon: MessageSquare, label: "Chat with Saathi", desc: "Ask legal questions", color: "bg-amber-600 hover:bg-amber-500 text-white" },
-    { href: "/guide", icon: BookOpen, label: "Legal Guides", desc: "Step-by-step guides", color: "bg-teal-600 hover:bg-teal-500 text-white" },
+    { href: "/analyze", icon: Upload, label: t("uploadDocument"), desc: t("analyzeSubtitle"), color: "bg-saathi-700 hover:bg-saathi-600 text-white" },
+    { href: "/chat", icon: MessageSquare, label: t("chatWithSaathi"), desc: t("askQuestion"), color: "bg-amber-600 hover:bg-amber-500 text-white" },
+    { href: "/guide", icon: BookOpen, label: t("documentGuides"), desc: t("guideSubtitle"), color: "bg-teal-600 hover:bg-teal-500 text-white" },
   ];
 
   return (
@@ -93,7 +93,7 @@ function DashboardContent() {
       {/* Quick Actions */}
       <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4} className="mb-8">
         <h2 className="font-semibold text-stone-800 mb-4 flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-saathi-600" /> Quick Actions
+          <TrendingUp className="w-4 h-4 text-saathi-600" /> {t("quickActions")}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {quickActions.map((action, i) => (
@@ -118,7 +118,7 @@ function DashboardContent() {
             <FileText className="w-4 h-4 text-saathi-600" /> {t("myDocuments")}
           </h2>
           <Link href="/analyze" className="flex items-center gap-1.5 text-sm text-saathi-700 font-medium hover:text-saathi-600 transition-colors">
-            <Plus className="w-4 h-4" /> Add New
+            <Plus className="w-4 h-4" /> {t("addNew")}
           </Link>
         </div>
 
@@ -191,10 +191,8 @@ function DashboardContent() {
           <div className="flex items-start gap-3">
             <Shield className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-red-800">High-Risk Documents Need Attention</p>
-              <p className="text-sm text-red-600 mt-1">
-                You have {documents.filter((d) => d.analysis?.riskLevel === "high").length} high-risk document(s). Review before signing.
-              </p>
+              <p className="font-semibold text-red-800">{t("highRiskAlert")}</p>
+              <p className="text-sm text-red-600 mt-1">{t("highRiskAlertDesc")}</p>
             </div>
           </div>
         </motion.div>
