@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Upload, FileText, Image, X, CheckCircle, Loader2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatFileSize } from "@/lib/utils";
+import { saveDocument, updateDocument } from "@/lib/firestore";
 import toast from "react-hot-toast";
 
 interface UploadedFile {
@@ -57,18 +58,41 @@ export default function DocumentUpload({ onUploadComplete, userId }: DocumentUpl
     setProcessing(true);
     setUploadedFile((prev) => prev ? { ...prev, status: "uploading" } : null);
 
+    let documentId: string | undefined;
+
     try {
+      // 1. Create the Firestore record client-side (user is authenticated here)
+      documentId = await saveDocument({
+        userId,
+        fileName: uploadedFile.file.name,
+        fileType: uploadedFile.file.type,
+        fileSize: uploadedFile.file.size,
+        language: "en",
+        status: "processing",
+      });
+
+      // 2. Call the API route for text extraction + Qdrant embedding
       const formData = new FormData();
       formData.append("file", uploadedFile.file);
       formData.append("userId", userId);
+      formData.append("documentId", documentId);
 
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Upload failed");
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.details || "Upload failed");
+      }
       const data = await res.json();
+
+      // 3. Update the Firestore record with extracted text
+      await updateDocument(documentId, {
+        extractedText: data.text,
+        status: "completed",
+      });
 
       setUploadedFile((prev) => prev ? { ...prev, status: "done" } : null);
       toast.success("Document uploaded successfully!");
@@ -76,10 +100,13 @@ export default function DocumentUpload({ onUploadComplete, userId }: DocumentUpl
         text: data.text,
         fileName: uploadedFile.file.name,
         fileType: uploadedFile.file.type,
-        documentId: data.documentId,
+        documentId,
       });
     } catch (err) {
       console.error(err);
+      if (documentId) {
+        updateDocument(documentId, { status: "error" }).catch(() => {});
+      }
       setUploadedFile((prev) => prev ? { ...prev, status: "error" } : null);
       toast.error("Upload failed. Please try again.");
     } finally {

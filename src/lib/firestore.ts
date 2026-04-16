@@ -97,10 +97,10 @@ export async function deleteDocument(id: string) {
 
 // Chat History
 export async function saveChatMessage(data: Omit<ChatMessage, "id">) {
-  const docRef = await addDoc(collection(db, "chatMessages"), {
-    ...data,
-    createdAt: serverTimestamp(),
-  });
+  const payload: Record<string, unknown> = { ...data, createdAt: serverTimestamp() };
+  // Firestore rejects undefined values — omit optional fields when not provided
+  if (payload.documentId === undefined) delete payload.documentId;
+  const docRef = await addDoc(collection(db, "chatMessages"), payload);
   return docRef.id;
 }
 

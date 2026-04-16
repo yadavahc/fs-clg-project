@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveDocument, updateDocument } from "@/lib/firestore";
 import { generateEmbedding } from "@/lib/openai";
 import { storeDocumentChunks, chunkText } from "@/lib/qdrant";
 import { v4 as uuidv4 } from "uuid";
@@ -62,6 +61,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file") as File;
     const userId = formData.get("userId") as string;
+    const documentId = (formData.get("documentId") as string) || uuidv4();
 
     if (!file || !userId) {
       return NextResponse.json({ error: "Missing file or userId" }, { status: 400 });
@@ -71,16 +71,6 @@ export async function POST(request: NextRequest) {
     if (file.size > 10 * 1024 * 1024) {
       return NextResponse.json({ error: "File too large. Max 10MB." }, { status: 400 });
     }
-
-    // Save initial document record
-    const documentId = await saveDocument({
-      userId,
-      fileName: file.name,
-      fileType: file.type,
-      fileSize: file.size,
-      language: "en",
-      status: "processing",
-    });
 
     // Extract text
     const extractedText = await extractTextFromFile(file);
@@ -107,12 +97,6 @@ export async function POST(request: NextRequest) {
         console.error("Qdrant storage error (non-fatal):", qdrantErr);
       }
     }
-
-    // Update document with extracted text
-    await updateDocument(documentId, {
-      extractedText,
-      status: "completed",
-    });
 
     return NextResponse.json({
       success: true,
