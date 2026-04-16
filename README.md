@@ -2,6 +2,8 @@
 
 > Built for **HackBLR 2024** — Democratizing legal literacy for farmers, shopkeepers, and rural families across India.
 
+**Live Demo:** [https://hack-blr-seven.vercel.app](https://hack-blr-seven.vercel.app)
+
 Legal Saathi bridges the gap between complex legal documents and the millions of Indians who struggle to understand them. Upload any legal document, get instant AI-powered risk analysis, ask questions by voice in your language, and receive plain-language explanations — all in Kannada, Hindi, or English.
 
 ---
