@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FileSearch, Loader2, RefreshCw, MessageSquare, ChevronRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { getDocument, DocumentRecord } from "@/lib/firestore";
+import { getDocument, updateDocument, DocumentRecord } from "@/lib/firestore";
 import DocumentUpload from "@/components/DocumentUpload";
 import RiskAnalysis from "@/components/RiskAnalysis";
 import AppShell from "@/components/AppShell";
@@ -46,7 +46,13 @@ function AnalyzeContent() {
       });
       if (!res.ok) throw new Error("Analysis failed");
       const data = await res.json();
-      setCurrentDoc({ userId: user?.uid || "", fileName, fileType, fileSize: 0, extractedText: text, analysis: data.analysis, language: "en", status: "completed" });
+
+      // Save analysis to Firestore client-side (user is authenticated here)
+      if (dId) {
+        await updateDocument(dId, { analysis: data.analysis, status: "completed" });
+      }
+
+      setCurrentDoc({ userId: user?.uid || "", fileName, fileType, fileSize: 0, extractedText: text, analysis: data.analysis, language, status: "completed" });
       toast.success("Analysis complete!");
     } catch (err) {
       console.error(err);

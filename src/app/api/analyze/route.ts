@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateDocument } from "@/lib/firestore";
 import { DocumentAnalysis } from "@/lib/firestore";
 
 export const runtime = "nodejs";
@@ -63,10 +62,6 @@ export async function POST(request: NextRequest) {
     } else {
       console.log("OpenAI not configured — using mock analysis");
       analysis = generateMockAnalysis(text);
-    }
-
-    if (documentId) {
-      await updateDocument(documentId, { analysis, status: "completed" }).catch(console.error);
     }
 
     return NextResponse.json({ success: true, analysis, documentId });
