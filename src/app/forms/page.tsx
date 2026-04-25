@@ -11,7 +11,9 @@ import {
   LEGAL_TEMPLATES,
   TEMPLATE_TITLES,
   TEMPLATE_DESCRIPTIONS,
+  FIELD_LABEL_TRANSLATIONS,
   TemplateDefinition,
+  FieldDef,
 } from "@/lib/legalTemplates";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
@@ -79,6 +81,9 @@ export default function FormsPage() {
 
   const getTemplateDescription = (tpl: TemplateDefinition) =>
     TEMPLATE_DESCRIPTIONS[tpl.id]?.[language] || tpl.description;
+
+  const getFieldLabel = (tplId: string, field: FieldDef) =>
+    FIELD_LABEL_TRANSLATIONS[tplId]?.[field.id]?.[language] || field.label;
 
   const selectTemplate = (tpl: TemplateDefinition) => {
     setSelected(tpl);
@@ -267,7 +272,7 @@ export default function FormsPage() {
                   {selected.fields.map((field) => (
                     <div key={field.id}>
                       <label className="block text-sm font-medium text-saathi-700 mb-1.5">
-                        {field.label}
+                        {getFieldLabel(selected.id, field)}
                         {field.required && <span className="text-red-500 ml-1">*</span>}
                       </label>
                       {field.type === "textarea" ? (
