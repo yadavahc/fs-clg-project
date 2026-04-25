@@ -25,23 +25,21 @@ export function useTTS() {
 
       setIsSpeaking(true);
       try {
-        // Try Sarvam TTS via API for Indian languages
-        if (language !== "en") {
-          const res = await fetch("/api/tts", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text, language }),
-          });
-          const data = await res.json();
+        // Try Sarvam TTS via API for all languages (supports en-IN, hi-IN, kn-IN, ta-IN, te-IN)
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, language }),
+        });
+        const data = await res.json();
 
-          if (data.audio && data.provider === "sarvam") {
-            const audio = new Audio(data.audio);
-            audioRef.current = audio;
-            audio.onended = () => { setIsSpeaking(false); audioRef.current = null; };
-            audio.onerror = () => { setIsSpeaking(false); audioRef.current = null; };
-            await audio.play();
-            return;
-          }
+        if (data.audio && data.provider === "sarvam") {
+          const audio = new Audio(data.audio);
+          audioRef.current = audio;
+          audio.onended = () => { setIsSpeaking(false); audioRef.current = null; };
+          audio.onerror = () => { setIsSpeaking(false); audioRef.current = null; };
+          await audio.play();
+          return;
         }
 
         // Fallback: browser Web Speech API

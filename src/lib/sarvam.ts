@@ -13,13 +13,13 @@ const LANG_TO_SARVAM: Record<string, string> = {
   en: "en-IN",
 };
 
-// Sarvam speaker IDs per language (best quality voices)
+// Sarvam speaker IDs per language (valid bulbul:v2 speakers)
 const SPEAKER_MAP: Record<string, string> = {
-  hi: "meera",
+  hi: "anushka",
   kn: "anushka",
-  ta: "pavithra",
-  te: "arvind",
-  en: "meera",
+  ta: "kavitha",
+  te: "manisha",
+  en: "anushka",
 };
 
 export function isSarvamConfigured(): boolean {
@@ -27,7 +27,7 @@ export function isSarvamConfigured(): boolean {
 }
 
 export function isSarvamLanguage(language: string): boolean {
-  return language !== "en" && Boolean(LANG_TO_SARVAM[language]);
+  return Boolean(LANG_TO_SARVAM[language]);
 }
 
 /**
@@ -55,7 +55,7 @@ export async function sarvamTTS(text: string, language: string): Promise<string>
       loudness: 1.5,
       speech_sample_rate: 22050,
       enable_preprocessing: true,
-      model: "bulbul:v1",
+      model: "bulbul:v2",
     }),
   });
 
