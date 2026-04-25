@@ -44,7 +44,7 @@ function ChatContent() {
         <h1 className="text-2xl font-bold text-saathi-800 flex items-center gap-2">
           <MessageSquare className="w-6 h-6" /> {t("chatWithSaathi")}
         </h1>
-        <p className="text-stone-500 text-sm mt-1">Ask questions in any language</p>
+        <p className="text-stone-500 text-sm mt-1">{t("askInAnyLang")}</p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" style={{ height: "calc(100vh - 200px)", minHeight: "500px" }}>
@@ -52,22 +52,22 @@ function ChatContent() {
         <div className="lg:col-span-1 space-y-4 overflow-y-auto">
           <div className="card p-4">
             <h3 className="font-semibold text-stone-700 mb-3 text-sm flex items-center gap-1.5">
-              <FileText className="w-4 h-4" /> Select Document
+              <FileText className="w-4 h-4" /> {t("selectDocument")}
             </h3>
             {loading ? (
               <div className="flex items-center gap-2 text-stone-400 text-sm py-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Loading...
+                <Loader2 className="w-4 h-4 animate-spin" /> {t("loading")}
               </div>
             ) : userDocs.length === 0 ? (
               <div className="text-center py-4">
-                <p className="text-stone-500 text-sm mb-2">No documents yet</p>
-                <Link href="/analyze" className="text-xs text-saathi-600 hover:text-saathi-700 font-medium">Upload a document →</Link>
+                <p className="text-stone-500 text-sm mb-2">{t("noDocuments")}</p>
+                <Link href="/analyze" className="text-xs text-saathi-600 hover:text-saathi-700 font-medium">{t("uploadDocArrow")}</Link>
               </div>
             ) : (
               <div className="space-y-2">
                 <button onClick={() => setSelectedDoc(null)} className={`w-full p-3 rounded-xl text-left transition-all text-sm ${!selectedDoc ? "bg-saathi-700 text-white" : "hover:bg-saathi-50 text-stone-700"}`}>
-                  <p className="font-medium">General Legal Chat</p>
-                  <p className={`text-xs mt-0.5 ${!selectedDoc ? "text-saathi-200" : "text-stone-400"}`}>No document context</p>
+                  <p className="font-medium">{t("generalLegalChat")}</p>
+                  <p className={`text-xs mt-0.5 ${!selectedDoc ? "text-saathi-200" : "text-stone-400"}`}>{t("noDocContext")}</p>
                 </button>
                 {userDocs.map((doc) => (
                   <button key={doc.id} onClick={() => setSelectedDoc(doc)} className={`w-full p-3 rounded-xl text-left transition-all ${selectedDoc?.id === doc.id ? "bg-saathi-700 text-white" : "hover:bg-saathi-50 text-stone-700"}`}>
@@ -89,9 +89,9 @@ function ChatContent() {
           </div>
           {selectedDoc && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="card p-4">
-              <h3 className="font-medium text-stone-700 text-sm mb-2">Active Context</h3>
+              <h3 className="font-medium text-stone-700 text-sm mb-2">{t("activeContext")}</h3>
               <p className="text-xs text-stone-500 leading-relaxed">
-                {(selectedDoc.analysis?.summary || selectedDoc.extractedText || "Document loaded").substring(0, 200)}...
+                {(selectedDoc.analysis?.summary || selectedDoc.extractedText || t("documentLoaded")).substring(0, 200)}...
               </p>
             </motion.div>
           )}

@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, CheckCircle2, AlertCircle, FileText, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronUp, CheckCircle2, AlertCircle, FileText, ArrowRight, Volume2, VolumeX } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTTS } from "@/lib/useTTS";
+import type { Language } from "@/lib/translations";
 
 interface GuideStep {
   title: string;
@@ -16,25 +19,54 @@ interface Guide {
   title: string;
   titleHi?: string;
   titleKn?: string;
+  titleTa?: string;
+  titleTe?: string;
   icon: string;
   description: string;
+  descriptionHi?: string;
+  descriptionKn?: string;
+  descriptionTa?: string;
+  descriptionTe?: string;
   steps: GuideStep[];
+  stepsHi?: GuideStep[];
+  stepsKn?: GuideStep[];
+  stepsTa?: GuideStep[];
+  stepsTe?: GuideStep[];
   estimatedTime: string;
   difficulty: "easy" | "medium" | "hard";
 }
 
 interface GuideCardProps {
   guide: Guide;
-  language?: "en" | "hi" | "kn";
+  language?: Language;
 }
 
 export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const { t } = useLanguage();
+  const { speak, stop, isSpeaking } = useTTS();
 
-  const title = language === "kn" && guide.titleKn ? guide.titleKn
-    : language === "hi" && guide.titleHi ? guide.titleHi
+  const title =
+    language === "hi" && guide.titleHi ? guide.titleHi
+    : language === "kn" && guide.titleKn ? guide.titleKn
+    : language === "ta" && guide.titleTa ? guide.titleTa
+    : language === "te" && guide.titleTe ? guide.titleTe
     : guide.title;
+
+  const description =
+    language === "hi" && guide.descriptionHi ? guide.descriptionHi
+    : language === "kn" && guide.descriptionKn ? guide.descriptionKn
+    : language === "ta" && guide.descriptionTa ? guide.descriptionTa
+    : language === "te" && guide.descriptionTe ? guide.descriptionTe
+    : guide.description;
+
+  const steps =
+    language === "hi" && guide.stepsHi ? guide.stepsHi
+    : language === "kn" && guide.stepsKn ? guide.stepsKn
+    : language === "ta" && guide.stepsTa ? guide.stepsTa
+    : language === "te" && guide.stepsTe ? guide.stepsTe
+    : guide.steps;
 
   const difficultyColor = {
     easy: "text-green-700 bg-green-100",
@@ -42,9 +74,14 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
     hard: "text-red-700 bg-red-100",
   };
 
+  const difficultyLabel = {
+    easy: t("difficultyEasy"),
+    medium: t("difficultyMedium"),
+    hard: t("difficultyHard"),
+  };
+
   return (
     <div className="bg-white rounded-2xl border border-saathi-100 shadow-sm overflow-hidden hover:shadow-saathi transition-all">
-      {/* Card Header */}
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full p-5 text-left flex items-start gap-4"
@@ -59,18 +96,17 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
               <ChevronDown className="w-5 h-5 text-saathi-400 flex-shrink-0 mt-0.5" />
             )}
           </div>
-          <p className="text-sm text-stone-500 mt-1">{guide.description}</p>
+          <p className="text-sm text-stone-500 mt-1">{description}</p>
           <div className="flex items-center gap-2 mt-2">
             <span className="text-xs text-stone-400">⏱ {guide.estimatedTime}</span>
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${difficultyColor[guide.difficulty]}`}>
-              {guide.difficulty.charAt(0).toUpperCase() + guide.difficulty.slice(1)}
+              {difficultyLabel[guide.difficulty]}
             </span>
-            <span className="text-xs text-stone-400">{guide.steps.length} steps</span>
+            <span className="text-xs text-stone-400">{steps.length} {t("stepsLabel")}</span>
           </div>
         </div>
       </button>
 
-      {/* Expanded Steps */}
       <AnimatePresence>
         {expanded && (
           <motion.div
@@ -80,9 +116,8 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
             className="overflow-hidden"
           >
             <div className="border-t border-saathi-100 p-5">
-              {/* Step Navigation */}
               <div className="flex gap-1 mb-4 overflow-x-auto pb-1">
-                {guide.steps.map((step, i) => (
+                {steps.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveStep(i)}
@@ -92,12 +127,11 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
                         : "bg-saathi-50 text-saathi-600 hover:bg-saathi-100"
                     }`}
                   >
-                    Step {i + 1}
+                    {t("stepLabel")} {i + 1}
                   </button>
                 ))}
               </div>
 
-              {/* Active Step Content */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeStep}
@@ -110,20 +144,20 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
                     <div className="w-7 h-7 bg-saathi-700 text-white rounded-lg flex items-center justify-center text-xs font-bold">
                       {activeStep + 1}
                     </div>
-                    <h4 className="font-semibold text-stone-800">{guide.steps[activeStep].title}</h4>
+                    <h4 className="font-semibold text-stone-800">{steps[activeStep].title}</h4>
                   </div>
 
                   <p className="text-sm text-stone-600 leading-relaxed pl-9">
-                    {guide.steps[activeStep].description}
+                    {steps[activeStep].description}
                   </p>
 
-                  {guide.steps[activeStep].documents && guide.steps[activeStep].documents!.length > 0 && (
+                  {steps[activeStep].documents && steps[activeStep].documents!.length > 0 && (
                     <div className="pl-9">
                       <p className="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2 flex items-center gap-1">
-                        <FileText className="w-3.5 h-3.5" /> Required Documents
+                        <FileText className="w-3.5 h-3.5" /> {t("requiredDocuments")}
                       </p>
                       <div className="space-y-1">
-                        {guide.steps[activeStep].documents!.map((doc, j) => (
+                        {steps[activeStep].documents!.map((doc, j) => (
                           <div key={j} className="flex items-center gap-2 text-sm text-stone-700">
                             <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             {doc}
@@ -133,13 +167,13 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
                     </div>
                   )}
 
-                  {guide.steps[activeStep].warnings && guide.steps[activeStep].warnings!.length > 0 && (
+                  {steps[activeStep].warnings && steps[activeStep].warnings!.length > 0 && (
                     <div className="pl-9">
                       <p className="text-xs font-semibold text-red-500 uppercase tracking-wide mb-2 flex items-center gap-1">
-                        <AlertCircle className="w-3.5 h-3.5" /> Watch Out
+                        <AlertCircle className="w-3.5 h-3.5" /> {t("watchOut")}
                       </p>
                       <div className="space-y-1">
-                        {guide.steps[activeStep].warnings!.map((warn, j) => (
+                        {steps[activeStep].warnings!.map((warn, j) => (
                           <div key={j} className="flex items-start gap-2 text-sm text-red-700 bg-red-50 rounded-lg p-2">
                             <AlertCircle className="w-3.5 h-3.5 text-red-500 flex-shrink-0 mt-0.5" />
                             {warn}
@@ -151,25 +185,43 @@ export default function GuideCard({ guide, language = "en" }: GuideCardProps) {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation */}
-              <div className="flex justify-between mt-4 pt-3 border-t border-saathi-100">
+              <div className="flex justify-between items-center mt-4 pt-3 border-t border-saathi-100">
                 <button
                   onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
                   disabled={activeStep === 0}
                   className="text-sm text-saathi-600 hover:text-saathi-800 disabled:opacity-30 transition-colors"
                 >
-                  ← Previous
+                  ← {t("previous")}
                 </button>
-                {activeStep < guide.steps.length - 1 ? (
+
+                {/* Listen button */}
+                <button
+                  onClick={() => {
+                    const stepData = steps[activeStep];
+                    const textToRead = `${stepData.title}. ${stepData.description}`;
+                    speak(textToRead, language);
+                  }}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                    isSpeaking
+                      ? "bg-red-100 text-red-700 hover:bg-red-200"
+                      : "bg-saathi-100 text-saathi-700 hover:bg-saathi-200"
+                  }`}
+                  title={isSpeaking ? t("stopReading") : t("readAloud")}
+                >
+                  {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                  {isSpeaking ? t("stopReading") : t("readAloud")}
+                </button>
+
+                {activeStep < steps.length - 1 ? (
                   <button
                     onClick={() => setActiveStep(activeStep + 1)}
                     className="flex items-center gap-1 text-sm text-saathi-700 font-medium hover:text-saathi-900 transition-colors"
                   >
-                    Next Step <ArrowRight className="w-3.5 h-3.5" />
+                    {t("nextStep")} <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 ) : (
                   <span className="flex items-center gap-1 text-sm text-green-600 font-medium">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Complete!
+                    <CheckCircle2 className="w-3.5 h-3.5" /> {t("complete")}
                   </span>
                 )}
               </div>

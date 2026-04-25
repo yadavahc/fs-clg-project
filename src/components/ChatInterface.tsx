@@ -41,12 +41,26 @@ const SUGGESTED_QUESTIONS = {
     "ಸರಳ ಭಾಷೆಯಲ್ಲಿ ವಿವರಿಸಿ",
     "ಸಹಿ ಮಾಡದಿದ್ದರೆ?",
   ],
+  ta: [
+    "இந்த ஆவணம் கையொப்பமிட பாதுகாப்பானதா?",
+    "முக்கிய அபாயங்கள் என்ன?",
+    "எளிய வார்த்தைகளில் விளக்குங்கள்",
+    "நான் கையொப்பமிடவில்லை என்றால்?",
+  ],
+  te: [
+    "ఈ పత్రం సంతకం చేయడం సురక్షితమేనా?",
+    "ప్రధాన నష్టాలు ఏమిటి?",
+    "సరళమైన మాటల్లో వివరించండి",
+    "నేను సంతకం చేయకపోతే ఏమవుతుంది?",
+  ],
 };
 
 const LANG_CODE: Record<string, string> = {
   en: "en-US",
   hi: "hi-IN",
   kn: "kn-IN",
+  ta: "ta-IN",
+  te: "te-IN",
 };
 
 function stripMarkdown(text: string): string {
@@ -69,10 +83,14 @@ export default function ChatInterface({ documentContext, documentId, initialMess
     id: "welcome",
     role: "assistant" as const,
     content:
-      language === "kn"
-        ? "ನಮಸ್ಕಾರ! ನಾನು ಲೀಗಲ್ ಸಾಥಿ. ನಿಮ್ಮ ಕಾನೂನು ದಾಖಲೆ ಬಗ್ಗೆ ಯಾವ ಪ್ರಶ್ನೆ ಬೇಕಾದರೂ ಕೇಳಿ!"
-        : language === "hi"
+      language === "hi"
         ? "नमस्ते! मैं लीगल साथी हूँ। अपने क़ानूनी दस्तावेज़ के बारे में कुछ भी पूछें!"
+        : language === "kn"
+        ? "ನಮಸ್ಕಾರ! ನಾನು ಲೀಗಲ್ ಸಾಥಿ. ನಿಮ್ಮ ಕಾನೂನು ದಾಖಲೆ ಬಗ್ಗೆ ಯಾವ ಪ್ರಶ್ನೆ ಬೇಕಾದರೂ ಕೇಳಿ!"
+        : language === "ta"
+        ? "வணக்கம்! நான் லீகல் சாத்தி. உங்கள் சட்ட ஆவணம் பற்றி எதையும் கேளுங்கள்!"
+        : language === "te"
+        ? "నమస్కారం! నేను లీగల్ సాథి. మీ చట్టపరమైన పత్రం గురించి ఏదైనా అడగండి!"
         : "Hello! I'm Legal Saathi, your legal assistant. Ask me anything about your document!",
     timestamp: new Date(),
   });
@@ -279,6 +297,10 @@ export default function ChatInterface({ documentContext, documentId, initialMess
               ? "माफ़ करें, मैं आपका प्रश्न नहीं समझ सका। कृपया फिर से प्रयास करें।"
               : language === "kn"
               ? "ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಅರ್ಥವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+              : language === "ta"
+              ? "மன்னிக்கவும், உங்கள் கேள்வியை புரிந்துகொள்ள முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
+              : language === "te"
+              ? "క్షమించండి, మీ ప్రశ్నను అర్థం చేసుకోలేకపోయాను. దయచేసి మళ్ళీ ప్రయత్నించండి."
               : "Sorry, I couldn't process your question. Please try again.",
           timestamp: new Date(),
         },

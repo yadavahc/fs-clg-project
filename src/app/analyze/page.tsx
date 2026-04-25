@@ -44,8 +44,8 @@ function AnalyzeContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, language, userId: user?.uid, documentId: dId, fileName, fileType }),
       });
-      if (!res.ok) throw new Error("Analysis failed");
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Analysis failed");
 
       // Save analysis to Firestore client-side (user is authenticated here)
       if (dId) {
@@ -53,10 +53,10 @@ function AnalyzeContent() {
       }
 
       setCurrentDoc({ userId: user?.uid || "", fileName, fileType, fileSize: 0, extractedText: text, analysis: data.analysis, language, status: "completed" });
-      toast.success("Analysis complete!");
+      toast.success(t("analysisSuccessToast"));
     } catch (err) {
       console.error(err);
-      toast.error("Analysis failed. Please try again.");
+      toast.error(t("analysisFailed"));
     } finally { setAnalyzing(false); }
   };
 
@@ -96,9 +96,9 @@ function AnalyzeContent() {
                   <DocumentUpload onUploadComplete={handleUploadComplete} userId={user?.uid || ""} />
                 </div>
                 <div className="mt-4 card p-4">
-                  <h3 className="font-medium text-stone-700 mb-3 text-sm">Tips for best results:</h3>
+                  <h3 className="font-medium text-stone-700 mb-3 text-sm">{t("tipsForBest")}</h3>
                   <div className="space-y-2">
-                    {["Upload clear PDF or image files", "For scanned docs, ensure good lighting", "Supports: rent agreements, loan papers, land documents", "Max 10MB per file"].map((tip, i) => (
+                    {[t("tipUploadClear"), t("tipGoodLighting"), t("tipSupports"), t("tipMaxSize")].map((tip, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <ChevronRight className="w-3.5 h-3.5 text-saathi-400 mt-0.5 flex-shrink-0" />
                         <p className="text-xs text-stone-500">{tip}</p>
@@ -117,9 +117,9 @@ function AnalyzeContent() {
                   </div>
                 </div>
                 <p className="text-xl font-bold text-saathi-800 mb-2">{t("analyzing")}</p>
-                <p className="text-stone-500 text-sm">AI is reading and analyzing your document...</p>
+                <p className="text-stone-500 text-sm">{t("aiReading")}</p>
                 <div className="mt-6 space-y-2">
-                  {["Extracting text...", "Identifying clauses...", "Analyzing risks...", "Generating summary..."].map((step, i) => (
+                  {[t("stepExtracting"), t("stepClauses"), t("stepAnalyzing"), t("stepSummary")].map((step, i) => (
                     <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.8 }} className="flex items-center gap-2 text-sm text-stone-500">
                       <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.8 }} className="w-2 h-2 bg-saathi-500 rounded-full" />
                       {step}
@@ -138,7 +138,7 @@ function AnalyzeContent() {
                 </div>
                 {docText && (
                   <div className="card p-4">
-                    <h3 className="font-medium text-stone-700 mb-2 text-sm">Extracted Text (Preview)</h3>
+                    <h3 className="font-medium text-stone-700 mb-2 text-sm">{t("extractedPreview")}</h3>
                     <div className="bg-cream-100 rounded-xl p-3 max-h-48 overflow-y-auto">
                       <p className="text-xs text-stone-600 leading-relaxed font-mono">{docText.substring(0, 800)}{docText.length > 800 && "..."}</p>
                     </div>
@@ -163,8 +163,8 @@ function AnalyzeContent() {
               <div className="w-16 h-16 bg-saathi-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <FileSearch className="w-8 h-8 text-saathi-400" />
               </div>
-              <p className="font-semibold text-stone-600 mb-1">Analysis will appear here</p>
-              <p className="text-stone-400 text-sm">Upload a document to see risk analysis</p>
+              <p className="font-semibold text-stone-600 mb-1">{t("analysisPlaceholderTitle")}</p>
+              <p className="text-stone-400 text-sm">{t("analysisPlaceholderDesc")}</p>
             </div>
           )}
         </div>

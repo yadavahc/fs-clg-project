@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateEmbedding } from "@/lib/openai";
 import { storeDocumentChunks, chunkText } from "@/lib/qdrant";
 import { v4 as uuidv4 } from "uuid";
 
@@ -75,24 +74,25 @@ export async function POST(request: NextRequest) {
     // Extract text
     const extractedText = await extractTextFromFile(file);
 
-    // Store embeddings in Qdrant (if OpenAI key is configured)
-    if (process.env.OPENAI_API_KEY && extractedText.length > 50) {
+    // Store embeddings in Qdrant using Gemini embeddings
+    if (process.env.QDRANT_URL && extractedText.length > 50) {
       try {
-        const chunks = chunkText(extractedText, 300, 50);
-        const embeddings = await Promise.all(
-          chunks.slice(0, 20).map((chunk) => generateEmbedding(chunk))
-        );
-
-        const docChunks = chunks.slice(0, 20).map((text, i) => ({
-          id: uuidv4(),
-          documentId,
-          userId,
-          chunkIndex: i,
-          text,
-          fileName: file.name,
-        }));
-
-        await storeDocumentChunks(docChunks, embeddings);
+        const { generateEmbeddingGemini, isGeminiConfigured } = await import("@/lib/gemini");
+        if (isGeminiConfigured()) {
+          const chunks = chunkText(extractedText, 300, 50);
+          const embeddings = await Promise.all(
+            chunks.slice(0, 20).map((chunk) => generateEmbeddingGemini(chunk))
+          );
+          const docChunks = chunks.slice(0, 20).map((text, i) => ({
+            id: uuidv4(),
+            documentId,
+            userId,
+            chunkIndex: i,
+            text,
+            fileName: file.name,
+          }));
+          await storeDocumentChunks(docChunks, embeddings);
+        }
       } catch (qdrantErr) {
         console.error("Qdrant storage error (non-fatal):", qdrantErr);
       }

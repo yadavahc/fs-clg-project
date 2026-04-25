@@ -16,7 +16,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("saathi_language") as Language;
-    if (saved && ["en", "hi", "kn"].includes(saved)) {
+    if (saved && ["en", "hi", "kn", "ta", "te"].includes(saved)) {
       setLanguageState(saved);
     }
   }, []);

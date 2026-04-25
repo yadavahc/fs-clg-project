@@ -63,11 +63,18 @@ export default function VoiceAssistant({ documentContext, onTranscript }: VoiceA
     if (!vapi) { setStatus("idle"); return; }
 
     const langInstructions =
-      language === "kn"
-        ? "Speak in Kannada language."
-        : language === "hi"
-        ? "Speak in Hindi language."
-        : "Speak in simple English.";
+      language === "kn" ? "Speak in Kannada language."
+      : language === "hi" ? "Speak in Hindi language."
+      : language === "ta" ? "Speak in Tamil language."
+      : language === "te" ? "Speak in Telugu language."
+      : "Speak in simple English.";
+
+    const firstMessage =
+      language === "kn" ? "ನಮಸ್ಕಾರ! ನಾನು ಲೀಗಲ್ ಸಾಥಿ. ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?"
+      : language === "hi" ? "नमस्ते! मैं लीगल साथी हूँ। आपकी कैसे मदद करूँ?"
+      : language === "ta" ? "வணக்கம்! நான் லீகல் சாத்தி. எப்படி உதவட்டும்?"
+      : language === "te" ? "నమస్కారం! నేను లీగల్ సాథి. మీకు ఎలా సహాయం చేయగలను?"
+      : "Hello! I'm Legal Saathi. How can I help you understand your document today?";
 
     try {
       await (vapi as {
@@ -78,8 +85,8 @@ export default function VoiceAssistant({ documentContext, onTranscript }: VoiceA
         }) => Promise<void>
       }).start({
         model: {
-          provider: "openai",
-          model: "gpt-4o",
+          provider: "anthropic",
+          model: "claude-haiku-4-5-20251001",
           messages: [
             {
               role: "system",
@@ -92,14 +99,11 @@ export default function VoiceAssistant({ documentContext, onTranscript }: VoiceA
         },
         voice: {
           provider: "11labs",
-          voiceId: language === "hi" ? "pNInz6obpgDQGcFmaJgB" : "21m00Tcm4TlvDq8ikWAM",
+          voiceId: language === "hi" || language === "kn" || language === "ta" || language === "te"
+            ? "pNInz6obpgDQGcFmaJgB"
+            : "21m00Tcm4TlvDq8ikWAM",
         },
-        firstMessage:
-          language === "kn"
-            ? "ನಮಸ್ಕಾರ! ನಾನು ಲೀಗಲ್ ಸಾಥಿ. ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?"
-            : language === "hi"
-            ? "नमस्ते! मैं लीगल साथी हूँ। आपकी कैसे मदद करूँ?"
-            : "Hello! I'm Legal Saathi. How can I help you understand your document today?",
+        firstMessage,
       });
     } catch (err) {
       console.error("Failed to start call:", err);
@@ -241,9 +245,11 @@ export default function VoiceAssistant({ documentContext, onTranscript }: VoiceA
               </div>
 
               <p className="mt-3 text-center text-xs text-saathi-400">
-                {language === "kn" ? "ಕನ್ನಡ, ಹಿಂದಿ, ಇಂಗ್ಲಿಷ್ ಬೆಂಬಲ" :
-                 language === "hi" ? "कन्नड़, हिंदी, अंग्रेज़ी" :
-                 "Kannada • Hindi • English"}
+                {language === "kn" ? "ಕನ್ನಡ • ಹಿಂದಿ • ತಮಿಳು • ತೆಲುಗು • ಇಂಗ್ಲಿಷ್"
+                : language === "hi" ? "कन्नड़ • हिंदी • तमिल • तेलुगु • अंग्रेज़ी"
+                : language === "ta" ? "கன்னடம் • இந்தி • தமிழ் • தெலுங்கு • ஆங்கிலம்"
+                : language === "te" ? "కన్నడ • హిందీ • తమిళం • తెలుగు • ఇంగ్లీష్"
+                : "Kannada • Hindi • Tamil • Telugu • English"}
               </p>
             </div>
           </motion.div>

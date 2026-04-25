@@ -41,13 +41,13 @@ function DashboardContent() {
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!confirm("Delete this document?")) return;
+    if (!confirm(t("confirmDelete"))) return;
     try {
       await deleteDocument(id);
       setDocuments((prev) => prev.filter((d) => d.id !== id));
-      toast.success("Document deleted");
+      toast.success(t("documentDeleted"));
     } catch {
-      toast.error("Failed to delete");
+      toast.error(t("failedDelete"));
     }
   };
 
@@ -68,7 +68,7 @@ function DashboardContent() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-saathi-800">
-          {t("hello")}, {user?.displayName?.split(" ")[0] || "Friend"} 👋
+          {t("hello")}, {user?.displayName?.split(" ")[0] || t("friend")} 👋
         </h1>
         <p className="text-stone-500 mt-1">{t("welcome")}</p>
       </motion.div>
@@ -125,7 +125,7 @@ function DashboardContent() {
         {loading ? (
           <div className="card p-12 text-center">
             <Loader2 className="w-8 h-8 animate-spin text-saathi-400 mx-auto mb-3" />
-            <p className="text-stone-500 text-sm">Loading documents...</p>
+            <p className="text-stone-500 text-sm">{t("loadingDocuments")}</p>
           </div>
         ) : documents.length === 0 ? (
           <div className="card p-12 text-center">
@@ -162,7 +162,7 @@ function DashboardContent() {
                       doc.status === "processing" ? "bg-amber-100 text-amber-700" :
                       doc.status === "error" ? "bg-red-100 text-red-700" : "bg-stone-100 text-stone-600"
                     }`}>
-                      {doc.status}
+                      {doc.status === "completed" ? t("statusCompleted") : doc.status === "processing" ? t("statusProcessing") : doc.status === "error" ? t("statusError") : doc.status}
                     </span>
                   </div>
                   {doc.analysis?.summary && (

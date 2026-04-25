@@ -40,7 +40,7 @@ function generateMockResponse(question: string, context: string, language: strin
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { question, context, history = [], language = "en", userId, documentId } = body;
+    const { question, context = "", history = [], language = "en", userId, documentId } = body;
 
     if (!question) {
       return NextResponse.json({ error: "No question provided" }, { status: 400 });
@@ -48,41 +48,40 @@ export async function POST(request: NextRequest) {
 
     let answer: string;
 
-    // Use OpenAI + RAG if configured
-    if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "your_openai_api_key_here") {
-      const { chatWithDocument } = await import("@/lib/openai");
+    const { isGeminiConfigured, chatWithDocumentGemini, generateEmbeddingGemini } = await import("@/lib/gemini");
 
-      let ragContext = context;
-
-      // Try to get RAG context from Qdrant
-      if (userId && process.env.QDRANT_URL) {
-        try {
-          const { generateEmbedding } = await import("@/lib/openai");
-          const { searchSimilarChunks } = await import("@/lib/qdrant");
-
-          const embedding = await generateEmbedding(question);
-          const chunks = await searchSimilarChunks(embedding, userId, documentId, 3);
-
-          if (chunks.length > 0) {
-            const ragText = chunks.map((c) => c.text).join("\n\n");
-            ragContext = `Relevant document context:\n${ragText}\n\n${context}`;
-          }
-        } catch (ragErr) {
-          console.error("RAG retrieval failed (non-fatal):", ragErr);
+    // Build RAG context using Gemini embeddings
+    let ragContext = context;
+    if (userId && process.env.QDRANT_URL && isGeminiConfigured()) {
+      try {
+        const embedding = await generateEmbeddingGemini(question);
+        const { searchSimilarChunks } = await import("@/lib/qdrant");
+        const chunks = await searchSimilarChunks(embedding, userId, documentId, 3);
+        if (chunks.length > 0) {
+          ragContext = `Relevant document context:\n${chunks.map((c) => c.text).join("\n\n")}\n\n${context}`;
         }
+      } catch (ragErr) {
+        console.error("RAG retrieval failed (non-fatal):", ragErr);
       }
+    }
 
-      answer = await chatWithDocument(question, ragContext, history, language);
+    if (isGeminiConfigured()) {
+      try {
+        answer = await chatWithDocumentGemini(question, ragContext, history, language);
+      } catch (geminiErr) {
+        console.warn("Gemini chat failed, using mock:", geminiErr);
+        answer = generateMockResponse(question, ragContext, language);
+      }
     } else {
-      // Mock response
-      answer = generateMockResponse(question, context, language);
+      answer = generateMockResponse(question, ragContext, language);
     }
 
     return NextResponse.json({ answer });
   } catch (error) {
-    console.error("Chat error:", error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Chat error:", message);
     return NextResponse.json({
-      answer: "I'm sorry, I encountered an error processing your question. Please try again.",
+      answer: `I'm sorry, I encountered an error: ${message}. Please try again.`,
     });
   }
 }

@@ -9,9 +9,10 @@ import {
 } from "lucide-react";
 import { DocumentAnalysis, RiskPoint } from "@/lib/firestore";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTTS } from "@/lib/useTTS";
 import { cn } from "@/lib/utils";
 
-const LANG_CODE: Record<string, string> = { en: "en-US", hi: "hi-IN", kn: "kn-IN" };
+const LANG_CODE: Record<string, string> = { en: "en-IN", hi: "hi-IN", kn: "kn-IN", ta: "ta-IN", te: "te-IN" };
 
 interface RiskAnalysisProps {
   analysis: DocumentAnalysis;
@@ -111,24 +112,13 @@ function RiskyClause({ point, index }: { point: RiskPoint; index: number }) {
 export default function RiskAnalysis({ analysis }: RiskAnalysisProps) {
   const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState<"overview" | "risks" | "decision" | "advice">("overview");
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const { speak, stop, isSpeaking } = useTTS();
 
   const speakAnalysis = useCallback(() => {
-    if (!window.speechSynthesis) return;
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      return;
-    }
+    if (isSpeaking) { stop(); return; }
     const text = `${analysis.simplifiedExplanation}. ${analysis.summary}`;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = { en: "en-US", hi: "hi-IN", kn: "kn-IN" }[language] || "en-US";
-    utterance.rate = 0.9;
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-    window.speechSynthesis.speak(utterance);
-  }, [analysis, isSpeaking, language]);
+    speak(text, language);
+  }, [analysis, isSpeaking, language, speak, stop]);
 
   const tabs = [
     { id: "overview" as const, label: t("tabOverview"), icon: Info },
@@ -329,7 +319,7 @@ export default function RiskAnalysis({ analysis }: RiskAnalysisProps) {
                   </motion.div>
                 ))
               ) : (
-                <p className="text-stone-500 text-sm">No specific recommendations at this time.</p>
+                <p className="text-stone-500 text-sm">{t("noSpecificRec")}</p>
               )}
             </motion.div>
           )}

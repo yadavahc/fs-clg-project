@@ -10,11 +10,11 @@ export async function analyzeDocument(
   language: string = "en"
 ): Promise<DocumentAnalysis> {
   const langInstruction =
-    language === "kn"
-      ? "Respond in Kannada language."
-      : language === "hi"
-      ? "Respond in Hindi language."
-      : "Respond in English language.";
+    language === "kn" ? "Respond in Kannada language."
+    : language === "hi" ? "Respond in Hindi language."
+    : language === "ta" ? "Respond in Tamil language."
+    : language === "te" ? "Respond in Telugu language."
+    : "Respond in English language.";
 
   const prompt = `You are a legal expert helping rural and low-literacy users in India understand legal documents.
 
@@ -57,16 +57,16 @@ ${text.substring(0, 4000)}`;
 
 export async function chatWithDocument(
   question: string,
-  context: string,
+  context: string = "",
   history: { role: "user" | "assistant"; content: string }[],
   language: string = "en"
 ): Promise<string> {
   const langInstruction =
-    language === "kn"
-      ? "Always respond in Kannada."
-      : language === "hi"
-      ? "Always respond in Hindi."
-      : "Respond in simple English.";
+    language === "kn" ? "Always respond in Kannada."
+    : language === "hi" ? "Always respond in Hindi."
+    : language === "ta" ? "Always respond in Tamil."
+    : language === "te" ? "Always respond in Telugu."
+    : "Respond in simple English.";
 
   const systemPrompt = `You are "Legal Saathi", a helpful legal assistant for rural and low-literacy users in India.
 ${langInstruction}
@@ -99,9 +99,7 @@ ${context.substring(0, 3000)}`;
 
 export async function translateText(text: string, targetLanguage: string): Promise<string> {
   const langMap: Record<string, string> = {
-    kn: "Kannada",
-    hi: "Hindi",
-    en: "English",
+    kn: "Kannada", hi: "Hindi", ta: "Tamil", te: "Telugu", en: "English",
   };
   const lang = langMap[targetLanguage] || "English";
 
