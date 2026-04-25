@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Scale, LayoutDashboard, FileSearch, MessageSquare, BookOpen, LogOut, Menu, X, User } from "lucide-react";
+import { Scale, LayoutDashboard, FileSearch, MessageSquare, BookOpen, LogOut, Menu, X, User, FileText } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
@@ -23,6 +23,7 @@ export default function Navbar() {
     { href: "/analyze", label: t("analyzeDocument"), icon: FileSearch },
     { href: "/chat", label: t("chatWithSaathi"), icon: MessageSquare },
     { href: "/guide", label: t("guides"), icon: BookOpen },
+    { href: "/forms", label: t("forms"), icon: FileText },
   ];
 
   return (

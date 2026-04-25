@@ -188,7 +188,26 @@ type TranslationKey =
   | "activeContext"
   | "documentLoaded"
   | "noSpecificRec"
-  | "searchNoGuidesFor";
+  | "searchNoGuidesFor"
+  | "forms"
+  | "formsTitle"
+  | "formsSubtitle"
+  | "formsFillDetails"
+  | "formsDocumentPreview"
+  | "formsReviewDownload"
+  | "formsBack"
+  | "formsRequiredNote"
+  | "formsSelectOption"
+  | "formsGenerating"
+  | "formsGenerate"
+  | "formsDownloadPDF"
+  | "formsPrint"
+  | "formsEditFields"
+  | "formsPreviewLabel"
+  | "formsCategoryProperty"
+  | "formsCategoryFinance"
+  | "formsCategoryLegal"
+  | "formsCategoryGovernment";
 
 type Translations = Record<Language, Record<TranslationKey, string>>;
 
@@ -374,6 +393,25 @@ export const translations: Translations = {
     documentLoaded: "Document loaded",
     noSpecificRec: "No specific recommendations at this time.",
     searchNoGuidesFor: "No guides found for",
+    forms: "Forms",
+    formsTitle: "Legal Form Builder",
+    formsSubtitle: "Generate ready-to-use legal documents in minutes",
+    formsFillDetails: "Fill in the details below",
+    formsDocumentPreview: "Document Preview",
+    formsReviewDownload: "Review and download your document",
+    formsBack: "Back",
+    formsRequiredNote: "Fields marked * are required",
+    formsSelectOption: "Select an option",
+    formsGenerating: "Generating...",
+    formsGenerate: "Generate Document",
+    formsDownloadPDF: "Download PDF",
+    formsPrint: "Print",
+    formsEditFields: "Edit Fields",
+    formsPreviewLabel: "Preview",
+    formsCategoryProperty: "Property",
+    formsCategoryFinance: "Finance",
+    formsCategoryLegal: "Legal",
+    formsCategoryGovernment: "Government",
   },
   hi: {
     appName: "लीगल साथी",
@@ -556,6 +594,25 @@ export const translations: Translations = {
     documentLoaded: "दस्तावेज़ लोड हुआ",
     noSpecificRec: "इस समय कोई विशेष सुझाव नहीं।",
     searchNoGuidesFor: "कोई गाइड नहीं मिली",
+    forms: "फॉर्म",
+    formsTitle: "कानूनी फॉर्म बिल्डर",
+    formsSubtitle: "मिनटों में तैयार कानूनी दस्तावेज़ बनाएं",
+    formsFillDetails: "नीचे विवरण भरें",
+    formsDocumentPreview: "दस्तावेज़ पूर्वावलोकन",
+    formsReviewDownload: "दस्तावेज़ देखें और डाउनलोड करें",
+    formsBack: "वापस",
+    formsRequiredNote: "* चिह्नित फ़ील्ड आवश्यक हैं",
+    formsSelectOption: "विकल्प चुनें",
+    formsGenerating: "बना रहे हैं...",
+    formsGenerate: "दस्तावेज़ बनाएं",
+    formsDownloadPDF: "PDF डाउनलोड करें",
+    formsPrint: "प्रिंट करें",
+    formsEditFields: "संपादित करें",
+    formsPreviewLabel: "पूर्वावलोकन",
+    formsCategoryProperty: "संपत्ति",
+    formsCategoryFinance: "वित्त",
+    formsCategoryLegal: "कानूनी",
+    formsCategoryGovernment: "सरकारी",
   },
   kn: {
     appName: "ಲೀಗಲ್ ಸಾಥಿ",
@@ -738,6 +795,25 @@ export const translations: Translations = {
     documentLoaded: "ದಾಖಲೆ ಲೋಡ್ ಆಯಿತು",
     noSpecificRec: "ಈ ಸಮಯದಲ್ಲಿ ನಿರ್ದಿಷ್ಟ ಶಿಫಾರಸುಗಳಿಲ್ಲ.",
     searchNoGuidesFor: "ಯಾವ ಮಾರ್ಗದರ್ಶಿ ಸಿಗಲಿಲ್ಲ",
+    forms: "ದಾಖಲೆ ಫಾರ್ಮ್",
+    formsTitle: "ಕಾನೂನು ಫಾರ್ಮ್ ಬಿಲ್ಡರ್",
+    formsSubtitle: "ನಿಮಿಷಗಳಲ್ಲಿ ಸಿದ್ಧ ಕಾನೂನು ದಾಖಲೆಗಳನ್ನು ರಚಿಸಿ",
+    formsFillDetails: "ಕೆಳಗೆ ವಿವರ ತುಂಬಿಸಿ",
+    formsDocumentPreview: "ದಾಖಲೆ ಮುನ್ನೋಟ",
+    formsReviewDownload: "ದಾಖಲೆ ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+    formsBack: "ಹಿಂದೆ",
+    formsRequiredNote: "* ಚಿಹ್ನೆ ಇರುವ ಕ್ಷೇತ್ರಗಳು ಕಡ್ಡಾಯ",
+    formsSelectOption: "ಆಯ್ಕೆ ಮಾಡಿ",
+    formsGenerating: "ರಚಿಸಲಾಗುತ್ತಿದೆ...",
+    formsGenerate: "ದಾಖಲೆ ರಚಿಸಿ",
+    formsDownloadPDF: "PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+    formsPrint: "ಮುದ್ರಿಸಿ",
+    formsEditFields: "ಸಂಪಾದಿಸಿ",
+    formsPreviewLabel: "ಮುನ್ನೋಟ",
+    formsCategoryProperty: "ಆಸ್ತಿ",
+    formsCategoryFinance: "ಹಣಕಾಸು",
+    formsCategoryLegal: "ಕಾನೂನು",
+    formsCategoryGovernment: "ಸರ್ಕಾರ",
   },
   ta: {
     appName: "லீகல் சாத்தி",
@@ -920,6 +996,25 @@ export const translations: Translations = {
     documentLoaded: "ஆவணம் ஏற்றப்பட்டது",
     noSpecificRec: "இந்த நேரத்தில் குறிப்பிட்ட பரிந்துரைகள் இல்லை.",
     searchNoGuidesFor: "எந்த வழிகாட்டியும் கிடைக்கவில்லை",
+    forms: "படிவங்கள்",
+    formsTitle: "சட்ட படிவ கட்டமைப்பாளர்",
+    formsSubtitle: "நிமிடங்களில் தயாரான சட்ட ஆவணங்களை உருவாக்கவும்",
+    formsFillDetails: "கீழே விவரங்களை நிரப்பவும்",
+    formsDocumentPreview: "ஆவண முன்னோட்டம்",
+    formsReviewDownload: "ஆவணத்தை சரிபார்க்கவும் மற்றும் பதிவிறக்கவும்",
+    formsBack: "திரும்பு",
+    formsRequiredNote: "* குறியிட்ட புலங்கள் கட்டாயம்",
+    formsSelectOption: "ஒரு விருப்பத்தை தேர்ந்தெடுக்கவும்",
+    formsGenerating: "உருவாக்கப்படுகிறது...",
+    formsGenerate: "ஆவணத்தை உருவாக்கவும்",
+    formsDownloadPDF: "PDF பதிவிறக்கவும்",
+    formsPrint: "அச்சிடவும்",
+    formsEditFields: "திருத்தவும்",
+    formsPreviewLabel: "முன்னோட்டம்",
+    formsCategoryProperty: "சொத்து",
+    formsCategoryFinance: "நிதி",
+    formsCategoryLegal: "சட்டம்",
+    formsCategoryGovernment: "அரசு",
   },
   te: {
     appName: "లీగల్ సాథి",
@@ -1102,6 +1197,25 @@ export const translations: Translations = {
     documentLoaded: "పత్రం లోడ్ అయింది",
     noSpecificRec: "ఈ సమయంలో నిర్దిష్ట సిఫారసులు లేవు.",
     searchNoGuidesFor: "మార్గదర్శకాలు ఏవీ కనుగొనబడలేదు",
+    forms: "ఫారాలు",
+    formsTitle: "చట్టపరమైన ఫారం బిల్డర్",
+    formsSubtitle: "నిమిషాల్లో సిద్ధమైన చట్టపరమైన పత్రాలను రూపొందించండి",
+    formsFillDetails: "క్రింద వివరాలు నమోదు చేయండి",
+    formsDocumentPreview: "పత్ర పూర్వావలోకనం",
+    formsReviewDownload: "పత్రాన్ని సమీక్షించి డౌన్‌లోడ్ చేయండి",
+    formsBack: "వెనుకకు",
+    formsRequiredNote: "* గుర్తుతో ఉన్న పొలాలు తప్పనిసరి",
+    formsSelectOption: "ఒక ఎంపిక ఎంచుకోండి",
+    formsGenerating: "రూపొందిస్తోంది...",
+    formsGenerate: "పత్రాన్ని రూపొందించండి",
+    formsDownloadPDF: "PDF డౌన్‌లోడ్ చేయండి",
+    formsPrint: "ముద్రించండి",
+    formsEditFields: "సవరించండి",
+    formsPreviewLabel: "పూర్వావలోకనం",
+    formsCategoryProperty: "ఆస్తి",
+    formsCategoryFinance: "ఆర్థికం",
+    formsCategoryLegal: "చట్టపరమైన",
+    formsCategoryGovernment: "ప్రభుత్వం",
   },
 };
 
