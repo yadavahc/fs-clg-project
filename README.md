@@ -1,10 +1,8 @@
 # Legal Saathi — AI-Powered Legal Assistant for Rural India
 
-> Built for **HackBLR 2024** — Democratizing legal literacy for farmers, shopkeepers, and rural families across India.
+> A full-stack pre-final year project — Democratizing legal literacy for farmers, shopkeepers, and rural families across India.
 
-**Live Demo:** [https://hack-blr-seven.vercel.app](https://hack-blr-seven.vercel.app)
-
-Legal Saathi bridges the gap between complex legal documents and the millions of Indians who struggle to understand them. Upload any legal document, get instant AI-powered risk analysis, ask questions by voice in your language, receive plain-language explanations, and generate ready-to-use legal forms — all in Kannada, Hindi, Tamil, Telugu, or English.
+Legal Saathi bridges the gap between complex legal documents and the millions of Indians who struggle to understand them. Upload any legal document, get instant AI-powered risk analysis, ask questions by voice in your language, receive plain-language explanations, and generate ready-to-use legal forms — all in Kannada, Hindi, Telugu, or English.
 
 ---
 
@@ -28,39 +26,39 @@ Legal Saathi bridges the gap between complex legal documents and the millions of
 
 ## Features
 
-| Feature | Description |
-|---|---|
-| **Document Upload** | PDF, DOC, DOCX, images (PNG/JPG), and plain text — up to 10MB |
-| **OCR Support** | Tesseract.js extracts text from scanned documents and photos in English, Hindi, and Kannada |
-| **AI Risk Analysis** | Gemini 2.5 Flash identifies risky clauses, safe clauses, risk level (low/medium/high), and what happens if you sign or don't |
-| **Multilingual** | Full UI and AI responses in Kannada (ಕನ್ನಡ), Hindi (हिंदी), Tamil (தமிழ்), Telugu (తెలుగు), and English |
-| **Voice Input (STT)** | Browser Web Speech API for voice input — supports all 5 Indian languages natively in Chrome |
-| **Voice Output (TTS)** | Sarvam AI `bulbul:v2` model for natural Indian-language speech output; browser TTS fallback |
-| **Voice Assistant** | Floating voice widget — speak → Gemini answers → Sarvam speaks it back, with multi-turn memory |
-| **RAG Chat** | Qdrant vector search retrieves the most relevant document chunks to ground AI answers |
-| **Legal Form Builder** | Template-based generator for 10 legal document types — no AI, instant PDF download, fully multilingual |
-| **Legal Guides** | Step-by-step plain-language guides for home loans, land documents, education loans, and more |
-| **Auth & History** | Firebase Authentication + Firestore to save documents and chat history per user |
+| Feature                | Description                                                                                                                  |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Document Upload**    | PDF, DOC, DOCX, images (PNG/JPG), and plain text — up to 10MB                                                                |
+| **OCR Support**        | Tesseract.js extracts text from scanned documents and photos in English, Hindi, and Kannada                                  |
+| **AI Risk Analysis**   | Gemini 2.5 Flash identifies risky clauses, safe clauses, risk level (low/medium/high), and what happens if you sign or don't |
+| **Multilingual**       | Full UI and AI responses in Kannada (ಕನ್ನಡ), Hindi (हिंदी), Telugu (తెలుగు), and English                                     |
+| **Voice Input (STT)**  | Browser Web Speech API for voice input — supports all 5 Indian languages natively in Chrome                                  |
+| **Voice Output (TTS)** | Sarvam AI `bulbul:v2` model for natural Indian-language speech output; browser TTS fallback                                  |
+| **Voice Assistant**    | Floating voice widget — speak → Gemini answers → Sarvam speaks it back, with multi-turn memory                               |
+| **RAG Chat**           | Qdrant vector search retrieves the most relevant document chunks to ground AI answers                                        |
+| **Legal Form Builder** | Template-based generator for 10 legal document types — no AI, instant PDF download, fully multilingual                       |
+| **Legal Guides**       | Step-by-step plain-language guides for home loans, land documents, education loans, and more                                 |
+| **Auth & History**     | Firebase Authentication + Firestore to save documents and chat history per user                                              |
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 15 (App Router, TypeScript) |
-| **Styling** | Tailwind CSS + Framer Motion |
-| **Authentication** | Firebase Auth (email/password) |
-| **Database** | Cloud Firestore |
-| **AI / LLM** | Google Gemini 2.5 Flash (analysis + chat), gemini-embedding-001 (RAG embeddings) |
-| **Voice STT** | Browser Web Speech API (Chrome — supports hi-IN, kn-IN, ta-IN, te-IN, en-IN) |
-| **Voice TTS** | Sarvam AI `bulbul:v2` (Indian languages) + browser Web Speech API fallback |
-| **Voice AI** | Vapi (`@vapi-ai/web`) |
-| **Vector DB** | Qdrant Cloud (semantic document search / RAG) |
-| **PDF Generation** | jsPDF (client-side, for Legal Form Builder) |
-| **OCR** | Tesseract.js (multi-language OCR) |
-| **PDF Parsing** | pdf-parse |
-| **Word Parsing** | mammoth |
+| Layer              | Technology                                                                       |
+| ------------------ | -------------------------------------------------------------------------------- |
+| **Framework**      | Next.js 15 (App Router, TypeScript)                                              |
+| **Styling**        | Tailwind CSS + Framer Motion                                                     |
+| **Authentication** | Firebase Auth (email/password)                                                   |
+| **Database**       | Cloud Firestore                                                                  |
+| **AI / LLM**       | Google Gemini 2.5 Flash (analysis + chat), gemini-embedding-001 (RAG embeddings) |
+| **Voice STT**      | Browser Web Speech API (Chrome — supports hi-IN, kn-IN, ta-IN, te-IN, en-IN)     |
+| **Voice TTS**      | Sarvam AI `bulbul:v2` (Indian languages) + browser Web Speech API fallback       |
+| **Voice AI**       | Vapi (`@vapi-ai/web`)                                                            |
+| **Vector DB**      | Qdrant Cloud (semantic document search / RAG)                                    |
+| **PDF Generation** | jsPDF (client-side, for Legal Form Builder)                                      |
+| **OCR**            | Tesseract.js (multi-language OCR)                                                |
+| **PDF Parsing**    | pdf-parse                                                                        |
+| **Word Parsing**   | mammoth                                                                          |
 
 ---
 
@@ -98,9 +96,9 @@ User Browser
 
 ```ts
 const MODELS = [
-  { name: "gemini-2.5-flash",      apiVersion: "v1beta" },
+  { name: "gemini-2.5-flash", apiVersion: "v1beta" },
   { name: "gemini-2.5-flash-lite", apiVersion: "v1beta" },
-  { name: "gemini-2.0-flash",      apiVersion: "v1beta" },
+  { name: "gemini-2.0-flash", apiVersion: "v1beta" },
   { name: "gemini-2.0-flash-lite", apiVersion: "v1beta" },
 ];
 ```
@@ -132,7 +130,7 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ### STT — Speech-to-Text
 
-- **Primary:** Browser `SpeechRecognition` / `webkitSpeechRecognition` (Chrome supports all 5 language codes natively: `en-IN`, `hi-IN`, `kn-IN`, `ta-IN`, `te-IN`)
+- **Primary:** Browser `SpeechRecognition` / `webkitSpeechRecognition` (Chrome supports all 4 language codes natively: `en-IN`, `hi-IN`, `kn-IN`, `te-IN`)
 - **Server route:** `/api/stt` using Sarvam `saarika:v1` is available but browser STT is used by default (avoids WebM→WAV conversion issues)
 
 ### Voice assistant flow
@@ -146,12 +144,11 @@ GEMINI_API_KEY=your_gemini_api_key
 ### Language support
 
 | Language | BCP-47 Code | Sarvam Speaker |
-|---|---|---|
-| English | `en-IN` | anushka |
-| Hindi | `hi-IN` | anushka |
-| Kannada | `kn-IN` | anushka |
-| Tamil | `ta-IN` | kavitha |
-| Telugu | `te-IN` | manisha |
+| -------- | ----------- | -------------- |
+| English  | `en-IN`     | anushka        |
+| Hindi    | `hi-IN`     | anushka        |
+| Kannada  | `kn-IN`     | anushka        |
+| Telugu   | `te-IN`     | manisha        |
 
 ### Configuration
 
@@ -175,13 +172,12 @@ SARVAM_API_KEY=your_sarvam_api_key
 
 ### Language support
 
-| Language | Voice |
-|---|---|
-| English | `en-IN` |
-| Hindi | `hi-IN` |
-| Kannada | `kn-IN` |
-| Tamil | `ta-IN` |
-| Telugu | `te-IN` |
+| Language | Voice   |
+| -------- | ------- |
+| English  | `en-IN` |
+| Hindi    | `hi-IN` |
+| Kannada  | `kn-IN` |
+| Telugu   | `te-IN` |
 
 ### Configuration
 
@@ -228,7 +224,7 @@ When a user asks a question (`/api/chat`):
 // From src/lib/qdrant.ts
 const embedding = await generateEmbedding(question);
 const chunks = await searchSimilarChunks(embedding, userId, documentId, 3);
-const ragContext = chunks.map(c => c.text).join("\n\n");
+const ragContext = chunks.map((c) => c.text).join("\n\n");
 // ragContext is passed as part of the Gemini system prompt
 ```
 
@@ -248,12 +244,12 @@ A fully offline, template-based document generator — no AI required, instant r
 
 ### Templates (10 types)
 
-| Category | Templates |
-|---|---|
-| Property | Land Purchase Agreement, House Rent Agreement, Property Dispute Complaint, Tenant Eviction Notice |
-| Finance | Education Loan Application, Loan Repayment Agreement |
-| Legal | Police Complaint (FIR), General Affidavit |
-| Government | Income Certificate Request, Caste Certificate Application |
+| Category   | Templates                                                                                         |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| Property   | Land Purchase Agreement, House Rent Agreement, Property Dispute Complaint, Tenant Eviction Notice |
+| Finance    | Education Loan Application, Loan Repayment Agreement                                              |
+| Legal      | Police Complaint (FIR), General Affidavit                                                         |
+| Government | Income Certificate Request, Caste Certificate Application                                         |
 
 ### How it works
 
@@ -335,17 +331,17 @@ npm run dev
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---|---|
-| `NEXT_PUBLIC_FIREBASE_*` | Yes | Firebase client config (Auth + Firestore) |
-| `GEMINI_API_KEY` | Yes | Gemini 2.5 Flash for analysis/chat, gemini-embedding-001 for RAG |
-| `SARVAM_API_KEY` | Yes | Sarvam bulbul:v2 TTS for Indian-language voice output |
-| `NEXT_PUBLIC_VAPI_PUBLIC_KEY` | Yes | Vapi public key for browser-side voice calls |
-| `VAPI_PRIVATE_KEY` | Yes | Vapi private key for server-side operations |
-| `QDRANT_URL` | Yes | Qdrant cluster HTTP endpoint |
-| `QDRANT_API_KEY` | Yes | Qdrant API key |
-| `QDRANT_COLLECTION` | No | Collection name (default: `legal_saathi_docs`) |
-| `NEXT_PUBLIC_APP_URL` | No | App base URL |
+| Variable                      | Required | Description                                                      |
+| ----------------------------- | -------- | ---------------------------------------------------------------- |
+| `NEXT_PUBLIC_FIREBASE_*`      | Yes      | Firebase client config (Auth + Firestore)                        |
+| `GEMINI_API_KEY`              | Yes      | Gemini 2.5 Flash for analysis/chat, gemini-embedding-001 for RAG |
+| `SARVAM_API_KEY`              | Yes      | Sarvam bulbul:v2 TTS for Indian-language voice output            |
+| `NEXT_PUBLIC_VAPI_PUBLIC_KEY` | Yes      | Vapi public key for browser-side voice calls                     |
+| `VAPI_PRIVATE_KEY`            | Yes      | Vapi private key for server-side operations                      |
+| `QDRANT_URL`                  | Yes      | Qdrant cluster HTTP endpoint                                     |
+| `QDRANT_API_KEY`              | Yes      | Qdrant API key                                                   |
+| `QDRANT_COLLECTION`           | No       | Collection name (default: `legal_saathi_docs`)                   |
+| `NEXT_PUBLIC_APP_URL`         | No       | App base URL                                                     |
 
 > Without `SARVAM_API_KEY`, the app falls back to browser Web Speech API for TTS. Without `GEMINI_API_KEY`, AI features will not function.
 
@@ -402,6 +398,7 @@ Extracts text from uploaded files and stores embeddings in Qdrant.
 **Request:** `multipart/form-data` — `file`, `userId`, `documentId`
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -452,3 +449,5 @@ Set all environment variables in the Vercel dashboard. The Firestore indexes are
 ## License
 
 MIT — Built with love for rural India at HackBLR 2024.
+#   f s - c l g - p r o j e c t  
+ 
